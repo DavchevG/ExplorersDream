@@ -1,0 +1,60 @@
+﻿@model ExplorersDream.Models.LoginViewModel
+
+<div class="container mt-5" style="flex: 1; min-height: 75vh">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4>Вход</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Login" method="post" novalidate>
+                        <div class="form-group mb-3">
+                            <label asp-for="Email" class="form-label"><i class="bi bi-envelope-fill me-2"></i>Имейл</label>
+                            <input asp-for="Email" class="form-control" placeholder="example@mail.com" />
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Password" class="form-label"><i class="bi bi-lock-fill me-2"></i>Парола</label>
+                            <div class="input-group">
+                                <input asp-for="Password" type="password" class="form-control" id="passwordField" placeholder="" />
+                                <button type="button" class="btn btn-outline-secondary" id="togglePassword">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="Password" class="text-danger small"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <div class="form-check">
+                                <input asp-for="RememberMe" class="form-check-input" />
+                                <label asp-for="RememberMe" class="form-check-label">Запомни ме</label>
+                            </div>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary"><i class="bi bi-box-arrow-in-right me-2"></i>Вход</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <small>Нямате акаунт? <a asp-action="Register" class="text-primary">Регистрация</a></small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const passwordField = document.getElementById("passwordField");
+        const togglePassword = document.getElementById("togglePassword");
+        const eyeIconPassword = togglePassword.querySelector("i");
+
+        togglePassword.addEventListener("click", function () {
+            const isPassword = passwordField.type === "password";
+            passwordField.type = isPassword ? "text" : "password";
+            eyeIconPassword.classList.toggle("bi-eye", !isPassword);
+            eyeIconPassword.classList.toggle("bi-eye-slash", isPassword);
+        });
+    });
+</script>

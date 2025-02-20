@@ -1,8 +1,7 @@
-﻿using ExplorersDream.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace YourNamespace.Models
+namespace ExplorersDream.Models
 {
     public class ProductImage
     {

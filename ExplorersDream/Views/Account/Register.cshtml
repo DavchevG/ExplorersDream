@@ -1,0 +1,92 @@
+﻿@model ExplorersDream.Models.RegisterViewModel
+
+<div class="container mt-5 mb-5 ">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4>Регистрация</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Register" method="post" novalidate>
+                        <div class="form-group mb-3">
+                            <label asp-for="UserName" class="form-label"><i class="bi bi-person-circle me-2"></i>Потребителско име</label>
+                            <input asp-for="UserName" class="form-control" placeholder="" />
+                            <span asp-validation-for="UserName" class="text-danger small"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="FirstName" class="form-label"><i class="bi bi-person-fill me-2"></i>Име</label>
+                            <input asp-for="FirstName" class="form-control" placeholder="" />
+                            <span asp-validation-for="FirstName" class="text-danger small"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="LastName" class="form-label"><i class="bi bi-person-fill me-2"></i>Фамилия</label>
+                            <input asp-for="LastName" class="form-control" placeholder="" />
+                            <span asp-validation-for="LastName" class="text-danger small"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Email" class="form-label"><i class="bi bi-envelope-fill me-2"></i>Имейл</label>
+                            <input asp-for="Email" class="form-control" placeholder="example@mail.com" />
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Password" class="form-label"><i class="bi bi-lock-fill me-2"></i>Парола</label>
+                            <div class="input-group">
+                                <input asp-for="Password" type="password" class="form-control" id="passwordField" placeholder="" />
+                                <button type="button" class="btn btn-outline-secondary" id="togglePassword">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="Password" class="text-danger small"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="ConfirmPassword" class="form-label"><i class="bi bi-check2-circle me-2"></i>Потвърди паролата</label>
+                            <div class="input-group">
+                                <input asp-for="ConfirmPassword" type="password" class="form-control" id="confirmPasswordField" placeholder="" />
+                                <button type="button" class="btn btn-outline-secondary" id="toggleConfirmPassword">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                            <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary"><i class="bi bi-person-plus-fill me-2"></i>Създай акаунт</button>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <small>Вече имате акаунт? <a asp-action="Login" class="text-primary">Вход</a></small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const passwordField = document.getElementById("passwordField");
+        const togglePassword = document.getElementById("togglePassword");
+        const eyeIconPassword = togglePassword.querySelector("i");
+
+        const confirmPasswordField = document.getElementById("confirmPasswordField");
+        const toggleConfirmPassword = document.getElementById("toggleConfirmPassword");
+        const eyeIconConfirmPassword = toggleConfirmPassword.querySelector("i");
+
+        togglePassword.addEventListener("click", function () {
+            const isPassword = passwordField.type === "password";
+            passwordField.type = isPassword ? "text" : "password";
+            eyeIconPassword.classList.toggle("bi-eye", !isPassword);
+            eyeIconPassword.classList.toggle("bi-eye-slash", isPassword);
+        });
+
+        toggleConfirmPassword.addEventListener("click", function () {
+            const isPassword = confirmPasswordField.type === "password";
+            confirmPasswordField.type = isPassword ? "text" : "password";
+            eyeIconConfirmPassword.classList.toggle("bi-eye", !isPassword);
+            eyeIconConfirmPassword.classList.toggle("bi-eye-slash", isPassword);
+        });
+    });
+</script>

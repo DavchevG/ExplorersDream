@@ -46,3 +46,17 @@ button.accept-policy {
   white-space: nowrap;
   line-height: 60px;
 }
+
+/*maha responsive breakpointove na .container div*/
+
+@media(min-width: 768px){
+    .container {
+        max-width: 100%;
+    }
+}
+
+@media(min-width: 576px) {
+    .container {
+        max-width: 100%;
+    }
+}

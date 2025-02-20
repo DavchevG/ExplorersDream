@@ -1,0 +1,80 @@
+﻿@model ExplorersDream.Models.Product
+
+<style>
+    body {
+        background-color: #D6FFFF;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .border-input {
+        border-width: 1px;
+        border-color: black;
+    }
+
+    .btn-fixed {
+        min-width: 120px;
+    }
+
+    .card {
+        background-color: #8FE4E2;
+        border-width: 1px;
+        border-color: black;
+        border-radius: 20px;
+    }
+
+</style>
+
+<div class="container mt-5 mb-5" style="max-width: 900px;">
+    <div class="card shadow-lg p-4">
+        <h1 class="text-center">Редактиране на продукт</h1>
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="Id" />
+
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label fw-bold">Име на продукта</label>
+                <input asp-for="Name" class="form-control border-input" placeholder="Въведете име"/>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label fw-bold">Описание</label>
+                <textarea asp-for="Description" class="form-control border-input" rows="3" placeholder="Въведете описание"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Price" class="form-label fw-bold">Цена</label>
+                <input asp-for="Price" type="number" step="0.01" class="form-control border-input" placeholder="Въведете цена" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3 position-relative">
+                <label asp-for="CategoryID" class="form-label fw-bold">Категория</label>
+                <div class="input-group">
+                    <select asp-for="CategoryID" class="form-control border-input" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))"></select>
+                    <span class="input-group-text border-input"><i class="bi bi-chevron-down"></i></span>
+                </div>
+                <span asp-validation-for="CategoryID" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Снимка</label>
+                <input type="file" name="imageFile" class="form-control border-input" />
+                @if (Model.Images != null && Model.Images.Any())
+                {
+                    <div class="mt-3 text-center">
+                        <img src="@Model.Images.First().Url" class="img-thumbnail" style="max-width: 250px; border-width: 1px; border-color: black;" />
+                        <p class="mt-1">Текуща снимка</p>
+                    </div>
+                }
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-success btn-fixed">
+                    <i class="bi bi-check-circle me-2"></i>Запази
+                </button>
+                <a asp-action="Index" class="btn btn-secondary btn-fixed">Отказ</a>
+            </div>
+        </form>
+    </div>
+</div>

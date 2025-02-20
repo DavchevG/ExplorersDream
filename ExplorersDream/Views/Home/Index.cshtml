@@ -1,8 +1,44 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Начална страница";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<header class="py-3 text-center" style="background-color: #007BFF; color: white; margin: 0; width: 100%;">
+    <h1 class="mb-0">ExplorersDream</h1>
+    <p class="mb-0">Вашият партньор за приключения</p>
+</header>
+
+<div class="hero-section text-center py-5" style="background: url('/images/hero-banner.jpg') no-repeat center center; background-size: cover; color: white;">
+    <h1 class="display-4" style="color: black">Добре дошли в ExplorersDream</h1>
+    <p class="lead" style="color: black">Открийте най-добрата екипировка за вашите приключения на открито.</p>
+    <a href="/Product" class="btn btn-primary btn-lg">Разгледайте продуктите</a>
 </div>
+
+<div class="container mt-5">
+    <h2 class="text-center">Защо да изберете нас?</h2>
+    <div class="row text-center">
+        <div class="col-md-4">
+            <i class="bi bi-truck fs-1 text-primary"></i>
+            <h5>Безплатна доставка</h5>
+            <p>За поръчки над 100 лв.</p>
+        </div>
+        <div class="col-md-4">
+            <i class="bi bi-shield-check fs-1 text-success"></i>
+            <h5>Сигурни плащания</h5>
+            <p>Вашата информация е защитена.</p>
+        </div>
+        <div class="col-md-4">
+            <i class="bi bi-star fs-1 text-warning"></i>
+            <h5>Качество</h5>
+            <p>Продукти от доказани марки.</p>
+        </div>
+    </div>
+</div>
+
+<footer class="text-center py-4 bg-light mt-5">
+    <p>&copy; 2024 ExplorersDream | <a href="/Privacy">Политика за поверителност</a></p>
+    <p>
+        Последвайте ни:
+        <a href="#"><i class="bi bi-facebook"></i></a>
+        <a href="#"><i class="bi bi-instagram"></i></a>
+    </p>
+</footer>

@@ -1,0 +1,203 @@
+﻿@model IEnumerable<ExplorersDream.Models.Product>
+
+@{
+    var isAdmin = ViewBag.IsAdmin;
+    ViewData["Title"] = "Продукти";
+}
+
+<style>
+    /* Фон на страницата */
+    body {
+        background-color: #D6FFFF; /* Светло синьо */
+        font-family: 'Arial', sans-serif;
+    }
+
+    /* 8FE4E2 */
+
+    /* Картички */
+    .card {
+        background-color: #8FE4E2; /* фон на картичката */
+        border-width: 1px; /* Светлосив борд */
+        border-color: black;
+        border-radius: 20px; /* Леко заоблени ъгли */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Лека сянка */
+        transition: transform 0.2s ease, box-shadow 0.2s ease; /* Анимация при мишка */
+        overflow: hidden;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+    }
+
+    .card:hover {
+        transform: translateY(-5px); /* Повдигане при мишка */
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* По-дълбока сянка */
+    }
+
+    /* Бутоните */
+    .btn-warning {
+        background-color: #FFAC1C; /* Пастелно оранжево */
+        border: none;
+        color: black;
+        border-radius: 20px; /* Заоблени бутони */
+        padding: 5px 15px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-warning:hover {
+        background-color: #ffa726; /* По-ярко оранжево при мишка */
+        transform: scale(1.05); /* Леко уголемяване */
+    }
+
+    .btn-danger {
+        background-color: #ff0000; /* Пастелно червено */
+        border: none;
+        color: white;
+        border-radius: 20px;
+        padding: 5px 15px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-danger:hover {
+        background-color: #FF2400; /* По-ярко червено при мишка */
+        transform: scale(1.05);
+        color: white;
+    }
+
+    /* Заглавие на страницата */
+    h1 {
+        color: #000000; /* черно */
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .card-body {
+        text-align: justify;
+        color: black;
+        word-wrap: break-word;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .card-text.price {
+        color: black;
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
+
+    .card-body .mt-auto {
+        margin-top: auto; /* Избутва бутоните надолу */
+    }
+
+    .card-img-top {
+        width: 100%; /* Задава ширината да е 100% от контейнера */
+        height: 300px;
+        object-fit: contain; /* Запълва картинката, като я изрязва, ако е нужно */
+        object-position: center; /* Центрира картинката вътре в контейнера */
+        border-bottom: 1px solid #ddd;
+        background-color: white;
+    }    
+
+    .btn-fixed {
+        min-width: 120px;
+    }
+
+    .border-input {
+        border-width: 1px;
+        border-color: black;
+    }
+</style>
+
+
+<link rel="stylesheet" href="~/css/site.css" />
+
+<div class="container mt-5 mb-5">
+    <form method="get" action="@Url.Action("Index")" class="mb-3">
+        <div class="d-flex mb-3 align-items-center">
+            <div class="input-group me-2">
+                <span class="input-group-text border-input"><i class="bi bi-search"></i></span>
+                <input type="text" name="searchQuery" class="form-control me-2 bi-search border-input" placeholder="Търсене на продукт..."
+                value="@ViewBag.SearchQuery" aria-label="Търсене на продукт...">
+            </div>
+            <button type="submit" class="btn btn-primary me-2 btn-fixed">Търсене</button>
+            <button class="btn btn-secondary d-flex align-items-center btn-fixed" type="button" data-bs-toggle="collapse" data-bs-target="#filterMenu">
+                <i class="bi bi-sliders me-2"></i> Филтри
+            </button>
+        </div>
+
+        <div class="collapse mb-3" id="filterMenu">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="category" class="form-label">Категория</label>
+                        <select id="category" name="category" class="form-select border-input">
+                            <option value="">Всички</option>
+                            @foreach (var category in ViewBag.Categories)
+                            {
+                                bool isSelected = ViewBag.SelectedCategory != null && ViewBag.SelectedCategory == category.Id;
+                                <option value="@category.Id" selected="@(isSelected ? "selected" : null)">@category.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="minPrice" class="form-label">Минимална цена</label>
+                        <input type="number" step="0.01" id="minPrice" name="minPrice" class="form-control border-input"
+                               value="@(ViewBag.MinPrice != null ? ViewBag.MinPrice.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture) : "")" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="maxPrice" class="form-label">Максимална цена</label>
+                        <input type="number" step="0.01" id="maxPrice" name="maxPrice" class="form-control border-input"
+                               value="@(ViewBag.MaxPrice != null ? ViewBag.MaxPrice.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture) : "")" />
+                    </div>
+                    <div class="d-flex justify-content-between mt-4">
+                        <button type="submit" class="btn btn-success btn-fixed">
+                            <i class="bi bi-check-circle"></i> Приложи филтрите
+                        </button>
+                        <a href="@Url.Action("Index")" class="btn btn-secondary btn">Изчисти филтрите</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+
+
+
+    @if (isAdmin)
+    {
+        <a href="/Product/Create" class="btn btn-success mb-3">Добави нов продукт</a>
+    }
+
+    <div class="row">
+        @foreach (var product in Model)
+        {
+            <div class="col-md-4 mb-4">
+                    <div class="card" onclick="location.href='@Url.Action("Details", "Product", new { id = product.Id })'">
+                        @if (product.Images != null && product.Images.Any())
+                        {
+                            <img src="@product.Images.First().Url" class="card-img-top" alt="@product.Name" />
+                        }
+                        else
+                        {
+                            <img src="/images/default-product.jpg" class="card-img-top" alt="Default Image" />
+                        }
+
+                        <div class="card-body">
+                            <h5 class="card-title">@product.Name</h5>
+                            <p class="card-text price">@product.Price лв.</p>
+                            <p class="card-text">@product.Description</p>
+                            <div class="mt-auto d-flex justify-content-between">
+                                @if (isAdmin)
+                                {
+                                    <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-warning btn-fixed">Редактирай</a>
+                                    <a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger btn-fixed">Изтрий</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        }
+    </div>
+</div>
+    

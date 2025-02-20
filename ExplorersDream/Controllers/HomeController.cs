@@ -1,3 +1,4 @@
+using ExplorersDream.Data;
 using ExplorersDream.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -14,9 +15,10 @@ namespace ExplorersDream.Controllers
         }
 
         public IActionResult Index()
-        {
+        {     
             return View();
         }
+
 
         public IActionResult Privacy()
         {

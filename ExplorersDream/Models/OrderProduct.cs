@@ -1,5 +1,4 @@
-﻿using ExplorersDream.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ExplorersDream.Models
@@ -11,7 +10,7 @@ namespace ExplorersDream.Models
         public int OrderId { get; set; }
 
         [ForeignKey("OrderId")]
-        public Order Order { get; set; }
+        public Order     Order { get; set; }
 
         public int ProductId { get; set; }
 

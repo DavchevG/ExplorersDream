@@ -12,7 +12,7 @@ namespace ExplorersDream.Models
         [Required]
         public int UserId { get; set; }
 
-        public List<OrderProduct> Products { get; set; }
+        public List<OrderProduct>? Products { get; set; }
 
         [Required]
         public DateTime OrderDate { get; set; }
