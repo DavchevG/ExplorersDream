@@ -4,29 +4,7 @@
     ViewData["Title"] = "Добави нов продукт";
 }
 
-<style>
-    body {
-        background-color: #D6FFFF;
-        font-family: 'Arial', sans-serif;
-    }
-
-    .border-input {
-        border-width: 1px;
-        border-color: black;
-    }
-
-    .btn-fixed {
-        min-width: 120px;
-    }
-
-    .card {
-        background-color: #8FE4E2;
-        border-width: 1px;
-        border-color: black;
-        border-radius: 20px;
-    }
-
-</style>
+<link rel="stylesheet" href="~/css/Index.css" asp-append-version="true" />
 
 <div class="container mt-5 mb-5" style="max-width: 900px;">
     <div class="card shadow-lg p-4">
@@ -37,6 +15,18 @@
                 <label asp-for="Name" class="form-label fw-bold">Име на продукта</label>
                 <input asp-for="Name" class="form-control border-input" placeholder="Въведете име" />
                 <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Brand" class="form-label fw-bold">Марка на продукта</label>
+                <input asp-for="Brand" class="form-control border-input" placeholder="Въведете марка" />
+                <span asp-validation-for="Brand" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ShortDescription" class="form-label fw-bold">Кратко описание</label>
+                <textarea asp-for="ShortDescription" class="form-control border-input" rows="3" placeholder="Въведете кряатко описание"></textarea>
+                <span asp-validation-for="ShortDescription" class="text-danger"></span>
             </div>
 
             <div class="mb-3">

@@ -1,39 +1,368 @@
-html {
-  font-size: 14px;
+/* Основни CSS променливи */
+:root {
+    --primary-color: #FFAC1C;
+    --danger-color: #ff0000;
+    --success-color: #218838;
+    --border-radius: 20px;
+    --card-bg: #8FE4E2;
+    --font-size-base: 14px;
+    --font-size-medium: 16px;
+    --font-size-large: 1.8rem;
+    --font-size-small: 1.1rem;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
+/* По-малък базов размер за адаптивност */
 html, body {
+    height: 100%; /* Пълна височина на документа */
+    margin: 0; /* Без маргин */ 
+    display: flex; /* Използваме flexbox за подреждане */
+    flex-direction: column; /* Вертикално подреждане */
+}
+
+
+
+
+
+
+
+/* Фон на страницата */
+body {
+    background: linear-gradient(180deg, #D6FFFF, #D1A8FF);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    font-size: 1rem;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Картички */
+.card {
+    background-color: var(--card-bg); /* фон на картичката */
+    border-width: 1px;
+    border-color: black;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Лека сянка */
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Анимация при мишка */
+    overflow: hidden;
     height: 100%;
     display: flex;
     flex-direction: column;
+    cursor: pointer;
 }
 
-main {
+    .card:hover {
+        transform: translateY(-5px); /* Повдигане при мишка */
+        box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* По-дълбока сянка */
+    }
+
+/* Общи стилове за бутоните */
+.btn {
+    border-radius: var(--border-radius);
+    padding: 5px 15px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-warning {
+    background-color: var(--primary-color); /* Пастелно оранжево */
+}
+
+    .btn-warning:hover {
+        background-color: #ffa726; /* По-ярко оранжево при мишка */
+        transform: scale(1.05); /* Леко уголемяване */
+    }
+
+.btn-danger {
+    background-color: var(--danger-color); /* Пастелно червено */
+    color: white;
+}
+
+    .btn-danger:hover {
+        background-color: #FF2400; /* По-ярко червено при мишка */
+        transform: scale(1.05);
+        color: white;
+    }
+
+.btn-success {
+    background-color: var(--success-color);
+    color: white;
+    font-weight: bold;
+    border: none;
+    max-height: 38px;
+    width: var(--width);
+}
+
+    .btn-success:hover {
+        background-color: #146c43;
+        transform: scale(1.05);
+    }
+
+.btn-secondary {
+    width: var(--width);
+    background-color: #6c757d;
+    color: white;
+    font-weight: bold;
+    border: none;
+    max-height: 38px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--border-radius);
+    width: var(--width);
+}
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+        transform: scale(1.05);
+    }
+
+/* Заглавие на страницата */
+h1 {
+    color: #000000; /* черно */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.card-body {
+    text-align: justify;
+    color: black;
+    word-wrap: break-word;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.card-text.price {
+    color: black;
+    font-weight: bold;
+    font-size: var(--font-size-small);
+}
+
+.card-body .mt-auto {
+    margin-top: auto; /* Избутва бутоните надолу */
+}
+
+.card-img-top {
+    width: 100%; /* Задава ширината да е 100% от контейнера */
+    height: 300px;
+    object-fit: contain; /* Запълва картинката, като я изрязва, ако е нужно */
+    object-position: center; /* Центрира картинката вътре в контейнера */
+    border-bottom: 1px solid #ddd;
+    background-color: white;
+}
+
+.btn-fixed {
+    min-width: 120px;
+}
+
+.border-input {
+    border-width: 1px;
+    border-color: black;
+}
+
+.delete-card {
+    max-width: 600px;
+    background-color: #fff3f3;
+    border-left: 8px solid #dc3545;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+    .delete-card h1 {
+        color: #dc3545;
+        font-weight: bold;
+    }
+
+    .delete-card .delete-icon {
+        font-size: 50px;
+        color: #dc3545;
+    }
+
+    .delete-card .delete-content {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .delete-card .product-img {
+        max-width: 120px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+    }
+
+/* Основен стил за контейнера на продукта */
+.product-card {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--card-bg);
+    border: 1px solid #000;
+    border-radius: 15px;
+    padding: 20px;
+    width: 75%;
+    height: auto;
+    margin: 5vh auto;
+    overflow: hidden;
+}
+
+/* Стилизиране на изображението */
+.product-image {
     flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    max-width: 50%;
 }
 
-@media (max-width: 576px), (min-width: 760px) and (max-width: 1000px) {
-    .card-body .d-flex {
-        flex-direction: column;
-        gap: 5px;
+    .product-image img {
+        width: 100%;
+        max-width: 400px;
+        max-height: 400px;
+        border-radius: 15px;
+        object-fit: contain;
+        background-color: white;
+        border: 1px solid #000;
+        transition: transform 0.3s ease-in-out;
     }
 
-    .card-body .btn-fixed {
-        width: 100%;
+        .product-image img:hover {
+            transform: scale(1.05);
+        }
+
+/* Стилизиране на информацията за продукта */
+.product-info {
+    flex: 1;
+    max-width: 50%;
+    padding: 20px;
+    text-align: justify;
+}
+
+    .product-info h2 {
+        font-size: var(--font-size-large);
+        font-weight: 700;
+        text-align: center;
     }
+
+    .product-info p {
+        font-size: 1.2rem;
+        line-height: 1.6;
+    }
+
+.price {
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* Стилове за размерите */
+.size-label {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.size-select {
+    width: 100%;
+    padding: 10px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+}
+
+/* Контейнер за бутоните */
+.product-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Количество - бутоните се адаптират */
+.quantity-wrapper {
+    display: flex;
+    align-items: center;
+    width: 140px;
+    height: 52px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.quantity-btn {
+    width: 40px;
+    height: 100%;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    border: none;
+    transition: background 0.3s;
+}
+
+#decrease:hover {
+    background-color: #dc3545;
+}
+
+#increase:hover {
+    background-color: #28a745;
+}
+
+.quantity-input {
+    width: 60px;
+    font-size: 1.4rem;
+    text-align: center;
+    border: none;
+    outline: none;
+}
+
+/* Бутони */
+.btn-primary, .btn-secondary {
+    padding: 14px 20px;
+    font-size: 1rem;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+
+.input-group .btn-outline-secondary {
+    background-color: white; /* Бял фон за бутона с иконката */
+    border: 1px solid #000; /* Очертания като на input полето */
+}
+
+.input-group .form-control {
+    border: 1px solid #000; /* Очертания на input полетата */
+}
+
+.form-control {
+    border: 1px solid #000; /* Очертания на input полетата */
+}
+
+.input-group .btn-outline-secondary:hover {
+    background-color: #f8f9fa; /* Леко сиво при hover */
+}
+
+.input-group .btn-outline-secondary i {
+    color: #495057; /* Тъмен цвят за иконката */
+}
+
+.border-input {
+    border: 1px solid #000;
 }

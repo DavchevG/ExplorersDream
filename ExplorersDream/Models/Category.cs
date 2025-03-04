@@ -9,7 +9,7 @@ namespace ExplorersDream.Models
 
         [Required]
         [StringLength(50)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         public List<Product> Products { get; set; } = new List<Product>();
     }

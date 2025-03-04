@@ -1,0 +1,258 @@
+﻿/* ======== Общи стилове ======== */
+.index-container {
+    margin: 48px auto;
+    padding: 0 10px;
+    display: flex;
+    flex-wrap: wrap; /* Позволява картите да се подреждат в редове */
+    gap: 16px; /* Разстояние между картите */
+    justify-content: space-between; /* Центрира картите, ако има празни пространства */
+}
+
+form {
+    width: 100%;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 колони за големи екрани */
+}
+
+.index-filter-card {
+    background-color: #8FE4E2; /* фон на картичката */
+    border-width: 1px; /* Светлосив борд */
+    border-color: black;
+    border-radius: 20px; /* Леко заоблени ъгли */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Лека сянка */
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Анимация при мишка */
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 20px;
+}
+
+.index-input-group {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-radius: 6px;
+    margin-right: 8px;
+}
+
+    .index-input-group input {
+        border: 1px solid black;
+        outline: none;
+        padding: 8px;
+        flex-grow: 1;
+        border-radius: 0 10px 10px 0;
+        border-left: 0;
+    }
+
+    .index-input-group .index-input-group-text {
+        background-color: white;
+        border: 1px solid black;
+        padding: 8px;
+        border-radius: 10px 0 0 10px;
+        height: 40px;
+    }
+
+/* ======== Форми ======== */
+.index-form-control, .index-form-select {
+    height: 40px;
+    border-radius: 15px;
+    border: 1px solid black;
+    padding: 8px 16px;
+    font-size: 1rem;
+    width: 100%;
+}
+
+    .index-form-control:focus {
+        outline: none;
+    }
+
+/* ======== Бутони ======== */
+.index-btn {
+    border-radius: 15px;
+    padding: 8px 16px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    height: 40px;
+    width: auto;
+    min-width: 140px;
+    text-decoration: none;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.index-buttons {
+    display: flex;
+    flex-direction: row;
+}
+
+.index-btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+    .index-btn-primary:hover {
+        background-color: #0056b3;
+        color: white;
+    }
+
+.index-btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+    .index-btn-secondary:hover {
+        background-color: #5a6268;
+    }
+
+.index-btn-success {
+    background-color: var(--success-color);
+    color: white;
+}
+    .index-btn-success:hover {
+        background-color: #1A6E2A;
+    }
+
+/* ======== Карти за продукти ======== */
+.index-card {
+    display: flex;
+    flex-direction: column;
+    background-color: #8FE4E2;
+    border: 1px solid black;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+    height: 100%;
+}
+
+    .index-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+.index-card-img-top {
+    width: 100%;
+    height: 280px;
+    object-fit: contain;
+    object-position: center;
+    border-bottom: 1px solid black;
+    background-color: white;
+    display: block;
+}
+
+.index-card-body {
+    flex-grow: 1; /* Позволява на тялото на картата да расте и да запълва пространството */
+    display: flex;
+    flex-direction: column; 
+    justify-content: space-between; /* Разпределя съдържанието на картата */
+    padding: 20px;
+}
+
+.index-card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    color: black;
+}
+
+.index-card-text {
+    font-size: 1rem;
+    color: black;
+    text-align: center;
+}
+
+    .index-card-text.price {
+        color: black;
+        font-weight: bold;
+        font-size: 1.8rem;
+    }
+
+.add-to-cart {
+    margin: 0 auto; /* Центрира бутона по хоризонтала */
+    display: block;
+}
+
+.index-d-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+
+/* ======== Бутоните в картите ======== */
+.index-btn-fixed {
+    min-width: 120px;
+    font-size: 0.9rem;
+    padding: 4px 16px;
+}
+
+/* ======== Медийни заявки за отзивчив дизайн ======== */
+
+@media (max-width: 999px) and (min-width: 576px) {
+    .index-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .row {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* 2 колони за средни екрани */
+        gap: 16px;
+    }
+
+    .index-card-img-top {
+        min-height: 180px; /* Намалява минималната височина */
+    }
+}
+
+@media (max-width: 768px) {
+    .row {
+        display: grid;
+        grid-template-columns: 1fr; /* 1 колона за малки екрани */
+        gap: 16px;
+    }
+
+    .index-structure {
+        flex-direction: column;
+    }
+
+    .index-buttons {
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    .index-btn {
+        width: 100%;
+        padding: 6px 0;
+    }
+
+    .index-btn-fixed {
+        min-width: 100px;
+    }
+
+    .index-form-control {
+        font-size: 0.85rem;
+    }
+
+    .index-card-img-top {
+        min-height: 180px;
+    }
+
+    .index-d-flex
+    {
+        gap: 50px;
+    }
+}
+    

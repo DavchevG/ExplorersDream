@@ -16,7 +16,7 @@ namespace ExplorersDream.Controllers
         }
 
         // Метод за списък с продукти
-            public async Task<IActionResult> Index(int? category, decimal? minPrice, decimal? maxPrice, string searchQuery)
+            public async Task<IActionResult> Index(int? category, decimal? minPrice, decimal? maxPrice, string searchQuery, Product p)
             {
                 var productsQuery = _dbContext.Products
                     .Include(p => p.Images)
@@ -42,7 +42,7 @@ namespace ExplorersDream.Controllers
 
                 if (!string.IsNullOrEmpty(searchQuery))
                 {
-                    productsQuery = productsQuery.Where(p => p.Name.Contains(searchQuery));
+                    productsQuery = productsQuery.Where( p => p.Name.Contains(searchQuery));
                 }
 
 
@@ -163,6 +163,7 @@ namespace ExplorersDream.Controllers
 
                 // Актуализиране на свойствата на продукта
                 product.Name = updatedProduct.Name;
+                product.ShortDescription = updatedProduct.ShortDescription;
                 product.Description = updatedProduct.Description;
                 product.Price = updatedProduct.Price;
                 product.CategoryID = updatedProduct.CategoryID;
@@ -216,6 +217,7 @@ namespace ExplorersDream.Controllers
 
             // Зареждане на категориите отново при грешка
             ViewBag.Categories = _dbContext.Categories.ToList();
+
 
             return View(updatedProduct);
         }
