@@ -4,7 +4,7 @@
     ViewData["Title"] = "Delete Product";
 }
 
-<link rel="stylesheet" href="~/css/site.css" />
+<link rel="stylesheet" href="~/css/Delete.css" />
 
 <div class="container d-flex justify-content-center" style="margin-top: 100px; margin-bottom: 100px;">
     <div id="deleteBox" class="delete-card">
@@ -21,12 +21,12 @@
 
             <div>
                 <h3 class="fw-bold">@Model.Name</h3>
-                <p class="text-right" style="text-align: justify;">@Model.Description</p>
                 <p class="fw-bold fs-5">Цена: <span class="text-success">@Model.Price лв.</span></p>
             </div>
         </div>
 
-        <form asp-action="DeleteConfirmed" method="post" class="mt-4 text-center">
+        <form asp-action="DeleteConfirmed" method="post" class="buttons mt-4 text-center">
+            <input type="hidden" name="id" value="@Model.Id" />
             <button type="submit" class="btn btn-danger btn-fixed" onclick="fadeOutCard()">Изтрий</button>
             <a asp-action="Index" class="btn btn-secondary btn-fixed">Отказ</a>
         </form>

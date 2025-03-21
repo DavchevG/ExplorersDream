@@ -1,0 +1,82 @@
+﻿/* Стил за картата */
+.card {
+    background-color: var(--card-bg);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+    border: 1px solid black;
+    border-radius: 15px;
+}
+
+    .card h1 {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #333;
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+/* Общ стил за формата */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Стил за текстовите полета */
+.form-label {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Стил за полетата за въвеждане */
+.form-control {
+    border-radius: 15px;
+    border: 1px solid black;
+    padding: 8px 16px;
+    font-size: 1rem;
+    width: 100%;
+}
+
+    .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+/* За textarea */
+textarea {
+    resize: none;
+}
+
+/* Стил за бутоните */
+.btn {
+    width: 150px;
+    border-radius: 25px;
+    font-weight: bold;
+}
+
+.btn-success {
+    background-color: var(--success-color);
+    color: white;
+}
+
+    .btn-success:hover {
+        background-color: #1e7e34;
+    }
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+    .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+
+/* Стил за иконата в полето за категория */
+.input-group-text {
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 15px;
+}

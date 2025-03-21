@@ -4,65 +4,65 @@
     ViewData["Title"] = "Добави нов продукт";
 }
 
-<link rel="stylesheet" href="~/css/Index.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/Create.css" asp-append-version="true" />
 
-<div class="container mt-5 mb-5" style="max-width: 900px;">
+<div class="container mt-5 mb-5">
     <div class="card shadow-lg p-4">
         <h1 class="text-center">Добави нов продукт</h1>
         <form asp-action="Create" method="post" enctype="multipart/form-data">
 
             <div class="mb-3">
-                <label asp-for="Name" class="form-label fw-bold">Име на продукта</label>
-                <input asp-for="Name" class="form-control border-input" placeholder="Въведете име" />
+                <label asp-for="Name" class="form-label">Име на продукта</label>
+                <input asp-for="Name" class="form-control" placeholder="Въведете име" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="Brand" class="form-label fw-bold">Марка на продукта</label>
-                <input asp-for="Brand" class="form-control border-input" placeholder="Въведете марка" />
+                <label asp-for="Brand" class="form-label">Марка на продукта</label>
+                <input asp-for="Brand" class="form-control" placeholder="Въведете марка" />
                 <span asp-validation-for="Brand" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="ShortDescription" class="form-label fw-bold">Кратко описание</label>
-                <textarea asp-for="ShortDescription" class="form-control border-input" rows="3" placeholder="Въведете кряатко описание"></textarea>
+                <label asp-for="ShortDescription" class="form-label">Кратко описание</label>
+                <textarea asp-for="ShortDescription" class="form-control" rows="3" placeholder="Въведете кратко описание"></textarea>
                 <span asp-validation-for="ShortDescription" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="Description" class="form-label fw-bold">Описание</label>
-                <textarea asp-for="Description" class="form-control border-input" rows="3" placeholder="Въведете описание"></textarea>
+                <label asp-for="Description" class="form-label">Описание</label>
+                <textarea asp-for="Description" class="form-control" rows="3" placeholder="Въведете описание"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label asp-for="Price" class="form-label fw-bold">Цена</label>
-                <input asp-for="Price" type="number" step="1" class="form-control border-input" placeholder="Въведете цена" />
+                <label asp-for="Price" class="form-label">Цена</label>
+                <input asp-for="Price" type="number" step="1" min="0" class="form-control" placeholder="Въведете цена" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
 
-            <div class="mb-3 position-relative">
-                <label asp-for="CategoryID" class="form-label fw-bold">Категория</label>
+            <div class="mb-3">
+                <label asp-for="CategoryID" class="form-label">Категория</label>
                 <div class="input-group">
-                    <select asp-for="CategoryID" class="form-control border-input" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))">
+                    <select asp-for="CategoryID" class="form-control" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))">
                         <option value="" disabled selected hidden>Изберете категория</option>
                     </select>
-                    <span class="input-group-text border-input"><i class="bi bi-chevron-down"></i></span>
+                    <span class="input-group-text"><i class="bi bi-chevron-down"></i></span>
                 </div>
                 <span asp-validation-for="CategoryID" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
-                <label for="imageFiles" class="form-label fw-bold">Качи снимки</label>
-                <input type="file" id="imageFiles" name="imageFiles" class="form-control border-input" multiple />
+                <label for="imageFiles" class="form-label">Качи снимки</label>
+                <input type="file" id="imageFiles" name="imageFiles" class="form-control" multiple />
                 <span class="text-danger"></span>
             </div>
 
             <div class="d-flex justify-content-between mt-4">
-                <button type="submit" class="btn btn-success btn-fixed px-4">
+                <button type="submit" class="btn btn-success px-4">
                     <i class="bi bi-check-circle me-2"></i>Запази
                 </button>
-                <a asp-action="Index" class="btn btn-secondary btn-fixed">Отказ</a>
+                <a asp-action="Index" class="btn btn-secondary">Отказ</a>
             </div>
         </form>
     </div>

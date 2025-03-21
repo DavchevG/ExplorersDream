@@ -1,0 +1,141 @@
+﻿@model List<ExplorersDream.Models.CartModel>
+
+<link rel="stylesheet" href="~/css/Cart.css" asp-append-version="true" />
+
+<h2 class="text-center cart-title pt-3">Количка</h2>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger text-center">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+@if (Model.Count == 0)
+{
+    <div class="cart-container alert alert-info text-center">
+        Количката ви е празна. <a href="@Url.Action("Index", "Product")">Разгледайте продуктите</a>.
+    </div>
+}
+else
+{
+    <div class="cart-container">
+        <table class="table table-bordered text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Продукт</th>
+                    <th>Цена</th>
+                    <th>Размер / Номер</th>
+                    <th>Количество</th>
+                    <th>Общо</th>
+                    <th>Премахни</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td data-label="Продукт">@item.ProductName</td>
+                        <td data-label="Цена">@item.Price лв.</td>
+                        <td data-label="Размер / Номер">
+                            @if (string.IsNullOrEmpty(item.Size))
+                            {
+                                <span class="text-muted">-</span>
+                                <span class="size-warning" data-product-id="@item.ProductId"></span>
+                            }
+                            else
+                            {
+                                @item.Size
+                            }
+                        </td>
+                        <td data-label="Количество">@item.Quantity</td>
+                        <td data-label="Общо">@(item.Price * item.Quantity) лв.</td>
+                        <td data-label="Премахни">
+                            <a href="@Url.Action("RemoveFromCart", "Cart", new { productId = item.ProductId, size = item.Size })" class="btn btn-danger btn-sm remove-btn"
+                               data-product-id="@item.ProductId" data-size="@item.Size">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="cart-footer">
+            <h4>Общо: <span id="cart-total">@Model.Sum(i => i.Price * i.Quantity) лв.</span></h4>
+            <div class="cart-buttons">
+                <a href="@Url.Action("Index", "Product")" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left me-2"></i>Продукти
+                </a>
+                <a href="@Url.Action("CompleteOrder", "Cart")" class="btn btn-success" id="checkout-btn">
+                    <i class="bi bi-check-circle"></i> Поръчай
+                </a>
+            </div>
+        </div>
+    </div>
+}
+
+<div id="sizeErrorModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">Грешка при поръчка</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Моля, изберете размер за всички дрехи и обувки, преди да направите поръчката.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Затвори</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("checkout-btn").addEventListener("click", function (event) {
+            event.preventDefault();
+
+            fetch(this.href, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    "RequestVerificationToken": document.querySelector('input[name="__RequestVerificationToken"]')?.value || ""
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = "/Cart/Checkout";
+                    } else {
+                        if (data.message.includes("Моля, изберете размер")) {
+                            document.querySelectorAll(".size-warning").forEach(el => {
+                                let productId = el.getAttribute("data-product-id");
+                                showSizePopup(el, "Изберете размер!");
+                            });
+                        } else {
+                            alert(data.message);
+                        }
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+        });
+
+        function showSizePopup(element, message) {
+            let popup = document.createElement("div");
+            popup.className = "size-popup";
+            popup.innerText = message;
+            document.body.appendChild(popup);
+
+            let rect = element.getBoundingClientRect();
+            popup.style.left = `${rect.left + window.scrollX + 20}px`;
+            popup.style.top = `${rect.top + window.scrollY - 10}px`;
+            popup.style.display = "block";
+
+            setTimeout(() => popup.remove(), 2500);
+        }
+    });
+</script>

@@ -1,6 +1,6 @@
 ﻿@model ExplorersDream.Models.Product
 
-<link rel="stylesheet" href="~/css/site.css" />
+<link rel="stylesheet" href="~/css/Edit.css" />
 
 <div class="container mt-5 mb-5" style="max-width: 900px;">
     <div class="card shadow-lg p-4">
@@ -34,7 +34,7 @@
 
                 <div class="mb-3">
                     <label asp-for="Price" class="form-label fw-bold">Цена</label>
-                    <input asp-for="Price" type="number" step="0.01" class="form-control border-input" placeholder="Въведете цена" />
+                    <input asp-for="Price" type="number" step="0.01" min="0" class="form-control border-input" placeholder="Въведете цена" />
                     <span asp-validation-for="Price" class="text-danger"></span>
                 </div>
 

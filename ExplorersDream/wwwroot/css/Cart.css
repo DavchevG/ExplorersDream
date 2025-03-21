@@ -1,0 +1,218 @@
+﻿/* Основни стилове за количката */
+.cart-container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 25px;
+    background: white;
+    border: 1px solid black;
+    border-radius: 15px;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.size-warning {
+    cursor: pointer;
+    margin-left: 5px;
+    font-size: 1.2em;
+    vertical-align: middle;
+}
+
+    .size-warning:hover {
+        color: red;
+    }
+
+.size-popup {
+    display: none;
+    position: absolute;
+    background: #fff3cd;
+    color: #856404;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    border: 1px solid #ffeeba;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+    z-index: 1000;
+}
+
+
+.cart-title {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 25px;
+    color: #222;
+}
+
+.alert-info {
+    background: #f8f9fa;
+    color: #555;
+    padding: 18px;
+    border-radius: 10px;
+    font-size: 18px;
+}
+
+/* Стилове за таблицата */
+.table {
+    width: 100%;
+    background: #fff;
+    overflow: hidden;
+    border-collapse: collapse;
+}
+
+    .table thead {
+        background: #2c3e50;
+        color: #fff;
+    }
+
+    .table th, .table td {
+        min-width: 135px;
+        padding: 10px;
+        text-align: center;
+        vertical-align: middle;
+        border: 1px solid black;
+    }
+
+    .table th {
+        background-color: var(--card-bg);
+        color: black;
+        font-size: 18px;
+    }
+
+/* Стилове за бутона за премахване */
+.btn-danger {
+    width: 100px;
+    background: #e74c3c;
+    border: none;
+    transition: 0.3s;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}
+
+    .btn-danger:hover {
+        background: #c0392b;
+    }
+
+/* Стилове за долната част на количката */
+.cart-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    padding-top: 20px;
+    font-size: 20px;
+    gap: 15px;
+}
+
+    .cart-footer h4 {
+        font-weight: bold;
+        font-size: 30px;
+        margin: 0;
+        order: 0;
+        flex-grow: 1;
+        text-align: center;
+    }
+
+.cart-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    width: 400px;
+    gap: 10px;
+}
+
+    .cart-buttons .btn {
+        width: 48%;
+    }
+
+.btn {
+    width: 130px;
+}
+
+.btn-secondary {
+    height: 34px;
+    background: #3498db;
+    border: none;
+    padding: 10px 18px;
+    border-radius: var(--border-radius);
+    font-size: 18px;
+    transition: 0.3s;
+    color: #fff;
+}
+
+    .btn-secondary:hover {
+        background: #2980b9;
+    }
+
+/* За таблети и малки екрани (до 992px) */
+@media (max-width: 992px) {
+    .table, .table thead, .table tbody, .table th, .table td, .table tr {
+        display: block;
+        background-color: white;
+    }
+
+        .table thead {
+            display: none; /* Скриваме заглавията на колоните */
+        }
+
+        .table tr {
+            border: 1px solid black;
+            margin-bottom: 50px;
+            border-radius: 12px;
+            padding: 15px;
+            background: var(--card-bg);
+        }
+
+        .table td {
+            height: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+            background-color: #fff;
+            border-radius: 8px;
+            margin-top: 8px;
+        }
+
+            .table td::before {
+                content: attr(data-label);
+                font-weight: bold;
+                color: #333;
+                margin-right: 8px;
+                font-size: 16px;
+            }
+
+    .cart-footer {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 15px;
+        padding: 0;
+    }
+
+    .cart-buttons {
+        width: 644px;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .btn-secondary {
+        font-size: 18px;
+        padding: 12px 0;
+        transition: 0.3s ease;
+        font-weight: bold;
+    }
+
+    .btn-danger {
+        height: 30px;
+        width: 60px;
+        font-size: 18px;
+        margin: 0;
+    }
+}

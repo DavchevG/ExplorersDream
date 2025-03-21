@@ -1,17 +1,17 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 using ExplorersDream.Data;
 using ExplorersDream.Models;
-using Microsoft.EntityFrameworkCore;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure Entity Framework and ApplicationDbContext
+// Конфигурация на Entity Framework
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
-// Configure Identity
+// Конфигурация на Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
     options.User.RequireUniqueEmail = true;
@@ -24,12 +24,29 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
-// Add services to the container.
+// Добавяне на Stripe
+var stripeSettings = builder.Configuration.GetSection("Stripe").Get<StripeSettings>();
+if (stripeSettings == null || string.IsNullOrEmpty(stripeSettings.SecretKey))
+{
+    throw new Exception("Stripe API ключовете не са конфигурирани!");
+}
+StripeConfiguration.ApiKey = stripeSettings.SecretKey;
+
+// Добавяне на сесии
+builder.Services.AddDistributedMemoryCache(); // Добавяне на кеш за сесии
+builder.Services.AddSession(options =>
+{
+    options.Cookie.HttpOnly = true; // защита на сесиите
+    options.Cookie.IsEssential = true; // прави сесията основна за функционалността
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // време за изтичане на сесията
+});
+
+// Добавяне на контролери и изгледи
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Конфигуриране на HTTP конвейера
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -38,20 +55,20 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
 
-// Enable authentication and authorization middleware
+// Автентикация, авторизация и сесии
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseSession(); // Използване на сесии в приложението
 
-// Map default route
+// Дефиниране на маршрути
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+// Стартиране на приложението
 app.Run();
-
 
 // Функция за създаване на роли и добавяне на администратор
 static async Task SeedRolesAndAdminAsync(IServiceProvider serviceProvider)
@@ -59,7 +76,6 @@ static async Task SeedRolesAndAdminAsync(IServiceProvider serviceProvider)
     var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-    // Създаване на роли
     string[] roles = { "Admin", "User" };
     foreach (var role in roles)
     {
@@ -68,27 +84,6 @@ static async Task SeedRolesAndAdminAsync(IServiceProvider serviceProvider)
             await roleManager.CreateAsync(new IdentityRole(role));
             Console.WriteLine($"Ролята {role} е създадена.");
         }
-    }
-
-    // Проверка за администраторски потребител и добавяне на роля
-    var email = "georgi.davchev112@gmail.com"; // Тук постави имейла на потребителя
-    var user = await userManager.FindByEmailAsync(email);
-
-    if (user != null)
-    {
-        if (!await userManager.IsInRoleAsync(user, "Admin"))
-        {
-            await userManager.AddToRoleAsync(user, "Admin");
-            Console.WriteLine($"Потребителят {email} е добавен като администратор.");
-        }
-        else
-        {
-            Console.WriteLine($"Потребителят {email} вече е администратор.");
-        }
-    }
-    else
-    {
-        Console.WriteLine($"Потребител с имейл {email} не съществува.");
     }
 }
 

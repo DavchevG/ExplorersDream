@@ -71,6 +71,10 @@ form {
         outline: none;
     }
 
+    .index-form-select:focus {
+        outline: none;
+    }
+
 /* ======== Бутони ======== */
 .index-btn {
     border-radius: 15px;

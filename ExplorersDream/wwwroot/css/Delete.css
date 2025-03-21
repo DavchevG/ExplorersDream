@@ -1,0 +1,55 @@
+﻿.delete-card {
+    width: 600px;
+    background-color: #fff3f3;
+    border-left: 8px solid #dc3545;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+    .delete-card .delete-icon {
+        font-size: 50px;
+        color: #dc3545;
+    }    
+
+    .delete-card .delete-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .delete-card .product-img {
+        max-width:250px;
+        border-radius: 8px;
+        border: 1px solid black;
+    }
+    .delete-card .buttons {
+        display: flex;
+        justify-content: space-between;
+        flex-direction: row;    
+    }
+
+.btn-fixed {
+    width: 120px;
+}
+
+.fade-out {
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -94,12 +94,20 @@
                             }
                             else
                             {
-                                <button class="index-btn index-btn-primary add-to-cart" style="width: 100%;">
-                                <i class="bi bi-cart me-2"></i>Добави в количката
-                                </button>
-                            }
+                                <form method="post" action="@Url.Action("AddToCart", "Cart")">
+                                    <input type="hidden" name="productId" value="@product.Id" />
+                                    <input type="hidden" name="productName" value="@product.Name" />
+                                    <input type="hidden" name="imageUrl" value="@(product.Images != null && product.Images.Any() ? product.Images.First().Url : "/images/default-product.jpg")" />
+                                    <input type="hidden" name="price" value="@product.Price" />
+                                    <input type="hidden" name="quantity" value="1" />
+                                    <input type="hidden" name="categoryId" value="@product.CategoryID" />
+                                    <button type="submit" class="index-btn index-btn-primary" style="width: 100%;">
+                                        <i class="bi bi-cart me-2"></i>Добави в количката
+                                    </button>
+                                </form>
+                            }  
                             </div>
-                        </div>
+                        </div>  
                     </div>
                 </div>
             }

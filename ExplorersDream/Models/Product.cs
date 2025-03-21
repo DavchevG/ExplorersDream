@@ -37,6 +37,7 @@ namespace ExplorersDream.Models
         [ValidateNever]
         public Category? Category { get; set; }
         public List<ProductImage> Images { get; set; } = new List<ProductImage>();
+        public ICollection<OrderProduct> OrderProducts { get; set; } = new List<OrderProduct>(); // Релация към поръчките
     }
 }
     

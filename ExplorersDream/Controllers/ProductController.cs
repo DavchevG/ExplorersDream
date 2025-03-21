@@ -3,6 +3,7 @@ using ExplorersDream.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 
 namespace ExplorersDream.Controllers
 {
@@ -16,53 +17,53 @@ namespace ExplorersDream.Controllers
         }
 
         // Метод за списък с продукти
-            public async Task<IActionResult> Index(int? category, decimal? minPrice, decimal? maxPrice, string searchQuery, Product p)
+        public async Task<IActionResult> Index(int? category, decimal? minPrice, decimal? maxPrice, string searchQuery, Models.Product p)
+        {
+            var productsQuery = _dbContext.Products
+                .Include(p => p.Images)
+                .AsQueryable();
+
+            // Филтриране по категория
+            if (category.HasValue && category.Value > 0)
             {
-                var productsQuery = _dbContext.Products
-                    .Include(p => p.Images)
-                    .AsQueryable();
+                productsQuery = productsQuery.Where(p => p.CategoryID == category.Value);
+            }
 
-                // Филтриране по категория
-                if (category.HasValue && category.Value > 0)
-                {
-                    productsQuery = productsQuery.Where(p => p.CategoryID == category.Value);
-                }
+            // Филтриране по минимална цена
+            if (minPrice.HasValue)
+            {
+                productsQuery = productsQuery.Where(p => p.Price >= minPrice.Value);
+            }
 
-                // Филтриране по минимална цена
-                if (minPrice.HasValue)
-                {
-                    productsQuery = productsQuery.Where(p => p.Price >= minPrice.Value);
-                }
+            // Филтриране по максимална цена
+            if (maxPrice.HasValue)
+            {
+                productsQuery = productsQuery.Where(p => p.Price <= maxPrice.Value);
+            }
 
-                // Филтриране по максимална цена
-                if (maxPrice.HasValue)
-                {
-                    productsQuery = productsQuery.Where(p => p.Price <= maxPrice.Value);
-                }
-
-                if (!string.IsNullOrEmpty(searchQuery))
-                {
-                    productsQuery = productsQuery.Where( p => p.Name.Contains(searchQuery));
-                }
+            if (!string.IsNullOrEmpty(searchQuery))
+            {
+                productsQuery = productsQuery.Where(p => p.Name.Contains(searchQuery));
+            }
 
 
-                var products = await productsQuery.ToListAsync();
-                var isAdmin = User.IsInRole("Admin");
-                ViewBag.IsAdmin = isAdmin;
+            var products = await productsQuery.ToListAsync();
+            var isAdmin = User.IsInRole("Admin");
+            ViewBag.IsAdmin = isAdmin;
 
-                // Зареждане на категориите за dropdown в изгледа
-                ViewBag.Categories = await _dbContext.Categories
-                    .Select(c => new { c.Id, c.Name })
-                    .ToListAsync();
+            // Зареждане на категориите за dropdown в изгледа
+            ViewBag.Categories = await _dbContext.Categories
+                .Select(c => new { c.Id, c.Name })
+                .ToListAsync();
 
-                // Запазване на избраните филтри
-                ViewBag.SelectedCategory = category;
-                ViewBag.MinPrice = minPrice;
-                ViewBag.MaxPrice = maxPrice;
-                ViewBag.SearchQuery = searchQuery;
+            // Запазване на избраните филтри
+            ViewBag.SelectedCategory = category;
+            ViewBag.MinPrice = minPrice;
+            ViewBag.MaxPrice = maxPrice;
+            ViewBag.SearchQuery = searchQuery;
 
             return View(products);
-            }
+        }
 
 
 
@@ -104,7 +105,7 @@ namespace ExplorersDream.Controllers
         // Метод за добавяне на нов продукт
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Product product, List<IFormFile> imageFiles)
+        public async Task<IActionResult> Create(ExplorersDream.Models.Product product, List<IFormFile> imageFiles)
         {
             if (ModelState.IsValid)
             {
@@ -146,7 +147,7 @@ namespace ExplorersDream.Controllers
         // Запазване на промените
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Product updatedProduct, List<IFormFile> imageFile)
+        public async Task<IActionResult> Edit(int id, ExplorersDream.Models.Product updatedProduct, List<IFormFile> imageFile)
         {
             if (id != updatedProduct.Id)
             {

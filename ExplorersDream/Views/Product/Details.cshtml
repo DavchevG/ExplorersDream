@@ -4,9 +4,9 @@
     Layout = "_Layout";
 }
 
-<link rel="stylesheet" href="~/css/site.css" />
+<link rel="stylesheet" href="~/css/Details.css" />
 
-<div class="container">
+<div class="container d-flex justify-content-center">
     <div class="product-card">
         <!-- Продуктова снимка -->
         <div class="product-image">
@@ -19,44 +19,72 @@
             <p><strong>Описание:</strong> @Model.Description</p>
             <p class="price">Цена: @Model.Price лв.</p>
 
+            <label class="size-label" for="size">
+                @if (Model.CategoryID == 1)
+                {
+                    <text>Изберете размер и количество:</text>
+                }
+                else if (Model.CategoryID == 2)
+                {
+                    <text>Изберете номер и количество:</text>
+                }
+                else
+                {
+                    <text>Изберете количество:</text>
+                }
+            </label>
 
-            <div class="size-wrapper">
+            <div class="size-quantity-container">
                 @if (Model.CategoryID == 1 || Model.CategoryID == 2)
                 {
-                    <label class="size-label" for="size">
-                        @(Model.CategoryID == 1 ? "Изберете размер:" : "Изберете номер:")
-                    </label>
-                    <select id="size" class="size-select">
-                        @if (Model.CategoryID == 1) // Облекло
-                        {
-                            <option value="XS">XS</option>
-                            <option value="S">S</option>
-                            <option value="M">M</option>
-                            <option value="L">L</option>
-                            <option value="XL">XL</option>
-                            <option value="XXL">XXL</option>
-                            <option value="XXXL">XXXL</option>
-                        }
-                        else if (Model.CategoryID == 2) // Обувки
-                        {
-                            @for (int size = 35; size <= 48; size++)
+                    <div class="size-wrapper">
+                        <select id="size" name="size" class="size-select">
+                            @if (Model.CategoryID == 1) // Облекло
                             {
-                                <option value="@size">@size</option>
+                                <option value="XS">XS</option>
+                                <option value="S">S</option>
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                                <option value="XL">XL</option>
+                                <option value="XXL">XXL</option>
+                                <option value="XXXL">XXXL</option>
                             }
-                        }
-                    </select>
+                            else if (Model.CategoryID == 2) // Обувки
+                            {
+                                @for (int size = 35; size <= 48; size++)
+                                {
+                                    <option value="@size">@size</option>
+                                }
+                            }
+                        </select>
+                    </div>
                 }
+
+                <div class="quantity-wrapper">
+                    <button type="button" class="quantity-btn" id="decrease">-</button>
+                    <input type="number" id="quantity" name="quantity" min="1" value="1" class="quantity-input">
+                    <button type="button" class="quantity-btn" id="increase">+</button>
+                </div>
             </div>
 
             <div class="product-actions">
-                    <div class="quantity-wrapper">
-                        <button type="button" class="quantity-btn" id="decrease">-</button>
-                        <input type="number" id="quantity" name="quantity" min="1" value="1" class="quantity-input">
-                        <button type="button" class="quantity-btn" id="increase">+</button>
-                    </div>
-                <a href="#" class="btn btn-primary">
-                    <i class="bi bi-cart me-2"></i> Добави в количката
-                </a>
+                <form method="post" action="@Url.Action("AddToCart", "Cart")" target="_self">
+                    <input type="hidden" name="productId" value="@Model.Id" />
+                    <input type="hidden" name="productName" value="@Model.Name" />
+                    <input type="hidden" name="imageUrl" value="@(Model.Images != null && Model.Images.Any() ? Model.Images.First().Url : "/images/default-product.jpg")" />
+                    <input type="hidden" name="price" value="@Model.Price" />
+                    <input type="hidden" name="quantity" id="hiddenQuantity" />
+                    <input type="hidden" name="categoryId" value="@Model.CategoryID" />
+
+                    @if (Model.CategoryID == 1 || Model.CategoryID == 2)
+                    {
+                        <input type="hidden" name="size" id="hiddenSize" />
+                    }
+
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-cart me-2"></i> Добави в количката
+                    </button>
+                </form>
             </div>
         </div>
     </div>
@@ -67,15 +95,50 @@
         let quantityInput = document.getElementById("quantity");
         let increaseBtn = document.getElementById("increase");
         let decreaseBtn = document.getElementById("decrease");
+        let sizeSelect = document.getElementById("size");
+        let hiddenSize = document.getElementById("hiddenSize");
+        let hiddenQuantity = document.getElementById("hiddenQuantity");
+        let addToCartForm = document.querySelector("form");
+
+        function updateHiddenQuantity() {
+            hiddenQuantity.value = quantityInput.value; // Обновяване на скритото поле
+        }
 
         increaseBtn.addEventListener("click", function () {
             quantityInput.value = parseInt(quantityInput.value) + 1;
+            updateHiddenQuantity();
         });
 
         decreaseBtn.addEventListener("click", function () {
             if (parseInt(quantityInput.value) > 1) {
                 quantityInput.value = parseInt(quantityInput.value) - 1;
+                updateHiddenQuantity();
             }
         });
+
+        // Ако потребителят промени стойността ръчно, обновяваме скритото поле
+        quantityInput.addEventListener("input", updateHiddenQuantity);
+        quantityInput.addEventListener("change", updateHiddenQuantity);
+
+        // Преди изпращане на формата, гарантираме, че стойностите са актуални
+        addToCartForm.addEventListener("submit", function (event) {
+            updateHiddenQuantity();
+            if (sizeSelect) {
+                hiddenSize.value = sizeSelect.value;
+            }
+        });
+    });
+
+    function stayOnPage() {
+        localStorage.setItem("scrollPosition", window.scrollY);
+        return true;
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        let scrollPosition = localStorage.getItem("scrollPosition");
+        if (scrollPosition) {
+            window.scrollTo(0, scrollPosition);
+            localStorage.removeItem("scrollPosition");
+        }
     });
 </script>
