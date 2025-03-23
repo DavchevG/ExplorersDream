@@ -3,7 +3,7 @@
     max-width: 1000px;
     margin: auto;
     padding: 25px;
-    background: white;
+    background: var(--card-bg);
     border: 1px solid black;
     border-radius: 15px;
     animation: fadeIn 0.3s ease-in-out;
@@ -73,10 +73,18 @@
     }
 
     .table th {
-        background-color: var(--card-bg);
+        background-color: #bfbfbf;
         color: black;
         font-size: 18px;
     }
+
+    .table td {
+        background-color: white;
+    }
+
+.table-bordered > :not(caption) > * {
+    border-width: 0 !important;
+}
 
 /* Стилове за бутона за премахване */
 .btn-danger {
@@ -153,7 +161,7 @@
 @media (max-width: 992px) {
     .table, .table thead, .table tbody, .table th, .table td, .table tr {
         display: block;
-        background-color: white;
+        background-color: var(--card-bg);
     }
 
         .table thead {
@@ -161,7 +169,6 @@
         }
 
         .table tr {
-            border: 1px solid black;
             margin-bottom: 50px;
             border-radius: 12px;
             padding: 15px;
@@ -174,7 +181,7 @@
             justify-content: space-between;
             align-items: center;
             font-size: 18px;
-            background-color: #fff;
+            background-color: white;
             border-radius: 8px;
             margin-top: 8px;
         }

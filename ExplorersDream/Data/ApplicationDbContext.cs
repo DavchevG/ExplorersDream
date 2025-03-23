@@ -35,7 +35,7 @@ namespace ExplorersDream.Data
 
             modelBuilder.Entity<OrderProduct>()
                 .HasOne(op => op.Product)
-                .WithMany(p => p.OrderProducts) // Добавено свойство в Product.cs
+                .WithMany(p => p.OrderProducts)
                 .HasForeignKey(op => op.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
         }

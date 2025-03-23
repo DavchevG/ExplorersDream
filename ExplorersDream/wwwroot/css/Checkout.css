@@ -1,0 +1,126 @@
+﻿/* Общи стилове */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+
+/* Контейнер за информацията за плащане */
+.payment-container {
+    background-color: var(--card-bg);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    max-width: 500px;
+    width: 100%;
+    margin: 100px auto 50px;
+    border: 1px solid black;
+    border-radius: 15px;
+        
+}
+
+    /* Заглавия */
+    .payment-container h2 {
+        text-align: center;
+        color: #333;
+    }
+
+/* Формуляр */
+#user-info-form {
+    max-width: 400px;
+    margin: auto;
+}
+
+    /* Полета за въвеждане */
+    #user-info-form input {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid black;
+        border-radius: 15px;
+        font-size: 14px;
+        margin-bottom: 15px;
+        background-color: white;
+    }
+
+        #user-info-form input:focus {
+            outline: none;
+        }
+
+        /* Стил за autofill */
+        #user-info-form input:-webkit-autofill {
+            background-color: white !important;
+            color: black !important;
+            box-shadow: 0 0 0px 1000px white inset !important;
+        }
+
+    /* Бутон за продължаване */
+    #user-info-form button {
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        font-size: 14px;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 10px;
+        background-color: green;
+    }
+
+/* Контейнер за методите на плащане */
+#payment-options {
+    display: none;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 400px;
+    margin: auto;
+    padding-top: 30px;
+}
+
+    /* Бутоните за плащане */
+    #payment-options button {
+        background-color: #007bff;
+        color: white;
+        padding: 8px 15px;
+        border: none;
+        border-radius: 5px;
+        font-size: 14px;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    /* Описание на методите за плащане */
+    #payment-options p {
+        text-align: center;
+        font-size: 14px;
+        color: #555;
+    }
+
+/* Общ стил за бутоните */
+#user-info-form button,
+#payment-options button{
+    color: white;
+    padding: 12px 15px; /* Увеличена височина */
+    border: none;
+    border-radius: 15px; /* По-заоблени ръбове */
+    font-size: 16px; /* Леко увеличен размер на текста */
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Стил за бутона "Продължи към плащане" */
+#user-info-form button {
+    background-color: green;
+}
+
+/* Стил за бутона "Плати с карта" */
+#checkout-button {
+    background-color: #28a745; /* Success зелен цвят */
+}
+
+/* Стил за всички бутони при hover */
+#user-info-form button:hover,
+#payment-options button:hover {
+    opacity: 0.85;
+}

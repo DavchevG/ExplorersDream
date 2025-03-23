@@ -41,7 +41,10 @@ else
                             @if (string.IsNullOrEmpty(item.Size))
                             {
                                 <span class="text-muted">-</span>
-                                <span class="size-warning" data-product-id="@item.ProductId"></span>
+                                @if ((item.CategoryId == 1 || item.CategoryId == 2))
+                                {
+                                    <span class="size-warning" data-product-id="@item.ProductId"></span>
+                                }
                             }
                             else
                             {

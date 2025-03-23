@@ -32,13 +32,42 @@ if (stripeSettings == null || string.IsNullOrEmpty(stripeSettings.SecretKey))
 }
 StripeConfiguration.ApiKey = stripeSettings.SecretKey;
 
+// Конфигуриране на PayPal API в основната конфигурация
+var paypalSettings = builder.Configuration.GetSection("PayPal").Get<PayPalSettings>();
+if (paypalSettings == null || string.IsNullOrEmpty(paypalSettings.ClientId) || string.IsNullOrEmpty(paypalSettings.ClientSecret))
+{
+    throw new Exception("PayPal API ключовете не са конфигурирани!");
+}
+
+var config = new Dictionary<string, string>
+{
+    { "clientId", paypalSettings.ClientId },
+    { "clientSecret", paypalSettings.ClientSecret },
+    { "mode", paypalSettings.Mode }
+};
+
+builder.Services.AddSingleton<PayPal.Api.APIContext>(serviceProvider =>
+{
+    var accessToken = new PayPal.Api.OAuthTokenCredential(
+        paypalSettings.ClientId,
+        paypalSettings.ClientSecret
+    ).GetAccessToken();
+
+    var apiContext = new PayPal.Api.APIContext(accessToken)
+    {
+        Config = config
+    };
+
+    return apiContext;
+});
+
 // Добавяне на сесии
-builder.Services.AddDistributedMemoryCache(); // Добавяне на кеш за сесии
+builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.Cookie.HttpOnly = true; // защита на сесиите
-    options.Cookie.IsEssential = true; // прави сесията основна за функционалността
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // време за изтичане на сесията
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Например 30 минути сесия
 });
 
 // Добавяне на контролери и изгледи
