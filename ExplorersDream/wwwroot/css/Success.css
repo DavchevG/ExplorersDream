@@ -1,0 +1,47 @@
+﻿/* Общ контейнер */
+.success-card {
+    background-color: var(--card-bg);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    border: 1px solid black;
+    height: 400px;
+    padding: 20px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Карта */
+.card-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+/* Икона за успех */
+.success-icon {
+    font-size: 3rem;
+    color: #28a745;
+}
+
+/* Контейнерът на бутона за правилно позициониране */
+.button-container {
+    margin-top: auto; 
+    display: flex;
+    justify-content: center; 
+}
+
+/* Бутон */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    border-radius: 15px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+    padding: 10px 20px;
+}
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }

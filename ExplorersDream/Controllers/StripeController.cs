@@ -57,8 +57,8 @@ namespace ExplorersDream.Controllers
                 PaymentMethodTypes = new List<string> { "card" },
                 LineItems = lineItems,
                 Mode = "payment",
-                SuccessUrl = $"{domain}/Stripe/Success",
-                CancelUrl = $"{domain}/Stripe/Cancel",
+                SuccessUrl = Url.Action("OrderSuccess", "Home", null, Request.Scheme),
+                CancelUrl = Url.Action("Checkout", "Cart", null, Request.Scheme),
                 Locale = "bg"
 
             };

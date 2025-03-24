@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Поръчката е успешна";
+}
+
+<link rel="stylesheet" href="~/css/Success.css" asp-append-version="true" />
+
+<div class="container text-center mt-5">
+    <div class="card success-card">
+        <div class="card-body">
+            <i class="bi bi-check-circle-fill success-icon"></i>
+            <h2 class="mt-3">@TempData["Message"]</h2>
+            <p class="text-muted">Вашата поръчка е успешно обработена. Благодарим Ви, че избрахте нашия магазин!</p>
+            <div class="button-container">
+                <a href="/" class="btn btn-primary">Обратно към началната страница</a>
+            </div>
+        </div>
+    </div>
+</div>

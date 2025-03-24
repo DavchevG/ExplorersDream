@@ -14,6 +14,14 @@ namespace ExplorersDream.Controllers
             _logger = logger;
         }
 
+        public IActionResult OrderSuccess()
+        {
+            // Можеш да добавиш логика тук, например да съхраниш поръчката в базата
+            // или да покажеш съобщение на потребителя, че плащането е успешно
+            TempData["Message"] = "Вашето плащане беше успешно! Благодарим Ви!";
+            return View(); // Ще отиде към view, което показва потвърждение
+        }
+
         public IActionResult Index()
         {     
             return View();
