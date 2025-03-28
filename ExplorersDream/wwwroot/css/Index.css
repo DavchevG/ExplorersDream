@@ -1,9 +1,6 @@
 ﻿/* ======== Общи стилове ======== */
 .index-container {
-    margin: 48px auto;
-    padding: 0 10px;
-    display: flex;
-    flex-wrap: wrap; /* Позволява картите да се подреждат в редове */
+    margin: 10px;
     gap: 16px; /* Разстояние между картите */
     justify-content: space-between; /* Центрира картите, ако има празни пространства */
 }

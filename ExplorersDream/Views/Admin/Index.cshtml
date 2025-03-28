@@ -1,0 +1,87 @@
+﻿@model IEnumerable<ExplorersDream.Models.ApplicationUser>
+
+@{
+    ViewData["Title"] = "Администриране на потребители";
+}
+
+<link rel="stylesheet" href="~/css/Admin.css" asp-append-version="true">
+
+<div class="admin-container">
+    <h2>Списък на потребителите</h2>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Име</th>
+                    <th>Електронна поща</th>
+                    <th>Статус</th>
+                    <th>Администратор</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@user.UserName</td>
+                        <td>@user.Email</td>
+                        <td>
+                            <span class="status @(user.UserStatus ? "active" : "inactive")">
+                                @(user.UserStatus ? "Активен" : "Деактивиран")
+                            </span>
+                        </td>
+                        <td>
+                            <span class="role @(user.IsAdmin ? "admin" : "user")">
+                                @(user.IsAdmin ? "Да" : "Не")
+                            </span>
+                        </td>
+                        <td>
+                            <div class="actions">
+                                @if (user.UserStatus == true)
+                                {
+                                    <form method="post" action="@Url.Action("ChangeStatus", "Admin", new { id = user.Id })">
+                                        <button type="submit" class="btn danger">
+                                            Деактивирай
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <form method="post" action="@Url.Action("ChangeStatus", "Admin", new { id = user.Id })">
+                                        <button type="submit" class="btn success">
+                                            Активирай
+                                        </button>
+                                    </form>
+                                }
+
+                                @if (!user.IsAdmin)
+                                {
+                                    <form method="post" action="@Url.Action("MakeAdmin", "Admin", new { id = user.Id })">
+                                        <button type="submit" class="btn success">
+                                            Направи админ
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <form method="post" action="@Url.Action("RemoveAdmin", "Admin", new { id = user.Id })">
+                                        <button type="submit" class="btn danger">
+                                            Премахни админ
+                                        </button>
+                                    </form>
+                                }
+
+                                <form method="post" action="@Url.Action("DeleteUser", "Admin", new { id = user.Id })">
+                                    <button type="submit" class="btn danger">
+                                        Изтрий
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

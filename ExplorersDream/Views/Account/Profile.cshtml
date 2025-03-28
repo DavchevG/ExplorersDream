@@ -1,0 +1,52 @@
+﻿@model ExplorersDream.ViewModels.ProfileViewModel
+
+<link rel="stylesheet" href="~/css/Profil.css" asp-append-version="true" />
+
+@{
+    ViewData["Title"] = "Профил";
+    string initial = !string.IsNullOrEmpty(Model.UserName) ? Model.UserName.Substring(0, 1).ToUpper() : "?";
+    string[] colors = { "#ff5733", "#33b5e5", "#ffbb33", "#00C851", "#aa66cc" };
+    int colorIndex = (int)initial[0] % colors.Length;
+    string bgColor = colors[colorIndex];
+}
+
+<div class="container profile-container mt-5">
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+
+    <div class="profile-header text-center">
+        <div class="avatar-circle" style="background-color: @bgColor;">
+            <span class="avatar-initial">@initial</span>
+        </div>
+        <h2 class="profile-title">Профил на потребителя</h2>
+    </div>
+
+    <form method="post" action="@Url.Action("UpdateProfile", "Account")" enctype="multipart/form-data" class="profile-form">
+        <div class="mb-3">
+            <label for="UserName" class="form-label">Потребителско име</label>
+            <input type="text" class="form-control" id="UserName" name="UserName" value="@Model.UserName" required />
+        </div>
+        <div class="mb-3">
+            <label for="Email" class="form-label">Имейл</label>
+            <input type="email" class="form-control" id="Email" name="Email" value="@Model.Email" required />
+        </div>
+        <div class="mb-3">
+            <label for="FirstName" class="form-label">Име</label>
+            <input type="text" class="form-control" id="FirstName" name="FirstName" value="@Model.FirstName" required />
+        </div>
+        <div class="mb-3">
+            <label for="LastName" class="form-label">Фамилия</label>
+            <input type="text" class="form-control" id="LastName" name="LastName" value="@Model.LastName" required />
+        </div>
+        <div class="mb-3 text-center">
+            <button type="submit" class="btn btn-primary profile-btn">Обнови профила</button>
+        </div>
+    </form>
+</div>

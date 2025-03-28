@@ -14,6 +14,7 @@
 /* По-малък базов размер за адаптивност */
 html, body {
     height: 100%; /* Пълна височина на документа */
+    width: 100%;
     margin: 0; /* Без маргин */ 
     display: flex; /* Използваме flexbox за подреждане */
     flex-direction: column; /* Вертикално подреждане */
@@ -182,4 +183,25 @@ body {
 
 .border-input {
     border: 1px solid #000;
+}
+
+/* Навигационен аватар */
+.nav-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-right: 10px;
+}
+
+/* Центриране на dropdown менюто */
+.navbar-nav .dropdown-menu {
+    right: 0;
+    left: auto;
 }

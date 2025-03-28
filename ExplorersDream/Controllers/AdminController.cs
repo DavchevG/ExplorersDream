@@ -1,35 +1,42 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using ExplorersDream.Data;
+using ExplorersDream.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using ExplorersDream.Data;
-using ExplorersDream.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
-using System.Linq;
 
 [Authorize(Roles = "Admin")]
 public class AdminController : Controller
 {
     private readonly ApplicationDbContext _context;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
 
-    public AdminController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+    public AdminController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
     {
         _context = context;
         _userManager = userManager;
+        _roleManager = roleManager;
     }
 
-    public IActionResult Index()
-    {
-        return View();
-    }
-
-    public IActionResult Users()
+    // За връщане към списък на потребителите, можем да използваме самия метод Index без изглед
+    public async Task<IActionResult> Index()
     {
         var users = _userManager.Users.ToList();
-        return View(users);
+
+        var userList = new List<ApplicationUser>();
+
+        foreach (var user in users)
+        {
+            var roles = await _userManager.GetRolesAsync(user);
+            user.IsAdmin = roles.Contains("Admin"); // Временно свойство (НЕ се запазва в базата)
+            userList.Add(user);
+        }
+
+        return View(userList);
     }
 
+
+    // Изтриване на потребител
     [HttpPost]
     public async Task<IActionResult> DeleteUser(string id)
     {
@@ -37,49 +44,67 @@ public class AdminController : Controller
         if (user != null)
         {
             await _userManager.DeleteAsync(user);
-            await _context.SaveChangesAsync();
         }
-        return RedirectToAction(nameof(Users));
+        return RedirectToAction(nameof(Index)); // Тук ще може да се направи обновление, без да е необходимо изглед
     }
 
-    public IActionResult Products()
-    {
-        var products = _context.Products.ToList();
-        return View(products);
-    }
-
+    // Промяна на статус на потребител
     [HttpPost]
-    public async Task<IActionResult> DeleteProduct(int id)
+    public async Task<IActionResult> ChangeStatus(string id)
     {
-        var product = await _context.Products.FindAsync(id);
-        if (product != null)
+        var user = await _userManager.FindByIdAsync(id);
+        if (user != null)
         {
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
+            user.UserStatus = !user.UserStatus; // Обърнато е състоянието на потребителя
+            var result = await _userManager.UpdateAsync(user);
         }
-        return RedirectToAction(nameof(Products));
+        return RedirectToAction(nameof(Index)); // Ще пренасочим отново към индекс страницата
     }
 
-    public IActionResult Orders()
-    {
-        var orders = _context.Orders
-            .Include(o => o.User)
-            .Include(o => o.Products)
-            .ThenInclude(oi => oi.Product)
-            .ToList();
-
-        return View(orders);
-    }
-
+    // Направи потребител администратор
     [HttpPost]
-    public async Task<IActionResult> DeleteOrder(int id)
+    public async Task<IActionResult> MakeAdmin(string id)
     {
-        var order = await _context.Orders.FindAsync(id);
-        if (order != null)
+        var user = await _userManager.FindByIdAsync(id);
+        if (user != null)
         {
-            _context.Orders.Remove(order);
-            await _context.SaveChangesAsync();
+            var roleExists = await _roleManager.RoleExistsAsync("Admin");
+            if (!roleExists)
+            {
+                await _roleManager.CreateAsync(new IdentityRole("Admin"));
+            }
+
+            var result = await _userManager.AddToRoleAsync(user, "Admin");
+            if (result.Succeeded)
+            {
+                TempData["SuccessMessage"] = "Потребителят стана администратор.";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Неуспешно добавяне на роля.";
+            }
         }
-        return RedirectToAction(nameof(Orders));
+
+        return RedirectToAction(nameof(Index)); // Пренасочва към същата страница след действие
+    }
+
+    // Премахване на администраторска роля от потребител
+    [HttpPost]
+    public async Task<IActionResult> RemoveAdmin(string id)
+    {
+        var user = await _userManager.FindByIdAsync(id);
+        if (user != null)
+        {
+            var result = await _userManager.RemoveFromRoleAsync(user, "Admin");
+            if (result.Succeeded)
+            {
+                TempData["SuccessMessage"] = "Ролята администратор беше премахната.";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Неуспешно премахване на роля.";
+            }
+        }
+        return RedirectToAction(nameof(Index)); // Пренасочване към същата страница след промяна
     }
 }
